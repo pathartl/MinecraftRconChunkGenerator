@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MinecraftConnectionCore" Version="1.1.0" />
+    <PackageReference Include="Sharprompt" Version="2.3.7" />
+  </ItemGroup>
+
+</Project>

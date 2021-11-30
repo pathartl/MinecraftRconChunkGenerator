@@ -1,4 +1,4 @@
-﻿using MinecraftConnectionCore;
+using MinecraftConnectionCore;
 using Sharprompt;
 using System;
 using System.Collections.Generic;
@@ -30,8 +30,8 @@ namespace MinecraftRconChunkGenerator
             Write("Also make sure you've enabled RCON and have changed the default password in server.properties");
             Write("");
 
-            string host = Prompt.Input<string>("Enter the IP to your server (e.g. 192.168.1.10)");
-            int port = Prompt.Input<int>("RCON Port");
+            string host = Prompt.Input<string>("Enter the IP or hostname to your server (e.g. 192.168.1.10, minecraft.example.com)");
+            int port = Prompt.Input<int>("RCON Port", 25575);
             string password = Prompt.Password("RCON Password", "*", null);
 
             Write("Trying to connect to your server...");
@@ -40,7 +40,9 @@ namespace MinecraftRconChunkGenerator
 
             try
             {
-                MinecraftClient = new MinecraftCommands(IPAddress.Parse(host), Convert.ToUInt16(port), password);
+                IPAddress ipAddress = Dns.GetHostEntry(host).AddressList.First();
+
+                MinecraftClient = new MinecraftCommands(ipAddress, Convert.ToUInt16(port), password);
 
                 worldBorderGetResult = MinecraftClient.SendCommand("/worldborder get");
                 
@@ -178,6 +180,11 @@ namespace MinecraftRconChunkGenerator
                     Write(MinecraftClient.SendCommand($"tp {player} {teleportCoordinates.X} {teleportCoordinates.Y} {teleportCoordinates.Z}"));
                     Thread.Sleep(teleportInterval);
                 }
+
+                MinecraftClient.SendCommand($"playsound entity.player.levelup player {player}");
+
+                Write("Done generating chunks! Press any key to exit");
+                Console.ReadLine();
             }
             else
             {

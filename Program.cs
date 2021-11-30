@@ -89,7 +89,7 @@ namespace MinecraftRconChunkGenerator
 
                 if (Prompt.Confirm($"Would you like to use {player}'s position as the center of your world border?"))
                 {
-                    var coordinates = ExtractCoordinates(MinecraftClient.SendCommand("tp pathartl ~ ~ ~"));
+                    var coordinates = ExtractCoordinates(MinecraftClient.SendCommand($"tp {player} ~ ~ ~"));
 
                     Write($"Set the world border to X={coordinates.X}, Z={coordinates.Z}");
 
